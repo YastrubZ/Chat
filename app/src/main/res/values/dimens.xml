@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="chat_layout_horizontal_margin">16dp</dimen>
+    <dimen name="chat_layout_vertical_margin">8dp</dimen>
+</resources>
