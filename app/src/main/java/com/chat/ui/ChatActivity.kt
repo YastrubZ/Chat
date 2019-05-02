@@ -11,15 +11,11 @@ import com.chat.network.ChatHandler
 import com.chat.network.ChatListener
 import kotlinx.android.synthetic.main.activity_chat.*
 
-class ChatActivity : AppCompatActivity(), ChatListener, ContractView {
-
-    private val presenter: ContractPresenter by lazy { ChatPresenter() }
+class ChatActivity : AppCompatActivity(), ChatListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
-
-        presenter.onAttach(this)
 
         ChatHandler.subscribe(
             resources.getString(R.string.default_user_name),
@@ -29,17 +25,16 @@ class ChatActivity : AppCompatActivity(), ChatListener, ContractView {
         )
 
         sendButton.setOnClickListener {
-            presenter.onSendClicked()
+            sendMessage()
         }
     }
 
     override fun onDestroy() {
         ChatHandler.unsubscribe()
-        presenter.onDetach()
         super.onDestroy()
     }
 
-    override fun sendMessage() {
+    private fun sendMessage() {
         ChatHandler.sendMessage(
             userEditText.text.toString(),
             messageEditText.text.toString()
@@ -57,7 +52,6 @@ class ChatActivity : AppCompatActivity(), ChatListener, ContractView {
             newTextView.gravity = if(isCurrentUser) Gravity.END else Gravity.START
             newTextView.text = message
             chatLayout.addView(newTextView)
-
             scrollView.fullScroll(View.FOCUS_DOWN)
         }
     }

@@ -8,7 +8,7 @@ import io.socket.client.Socket.*
 import org.json.JSONObject
 
 object ChatHandler {
-
+    private const val SOCKET_IO_SERVER_ADDRESS = "http://185.13.90.140:8081"
     private const val JSON_KEY_USER = "user"
     private const val JSON_KEY_MESSAGE = "message"
 
