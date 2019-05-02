@@ -2,6 +2,9 @@ package com.chat.ui
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.widget.LinearLayout
@@ -27,6 +30,18 @@ class ChatActivity : AppCompatActivity(), ChatListener {
         sendButton.setOnClickListener {
             sendMessage()
         }
+
+        messageEditText.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {
+                sendButton.isEnabled = p0!!.isNotEmpty()
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+        })
     }
 
     override fun onDestroy() {

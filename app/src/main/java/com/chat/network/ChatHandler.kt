@@ -27,7 +27,6 @@ object ChatHandler {
     ){
         this.currentUser = currentUser
         this.chatListener = chatListener
-
         socket
             .on(EVENT_CONNECT) { args ->
                 chatListener.onNewMessage(newUserMessage)
@@ -52,9 +51,8 @@ object ChatHandler {
     }
 
     fun sendMessage(user: String, message: String) {
-        currentUser = user
         val messageJsonObject = JSONObject()
-        messageJsonObject.put(JSON_KEY_USER, currentUser)
+        messageJsonObject.put(JSON_KEY_USER, if (user.isEmpty()) currentUser else user)
         messageJsonObject.put(JSON_KEY_MESSAGE, message)
         socket.emit(EVENT_MESSAGE, messageJsonObject)
         chatListener?.onNewMessage(message, true)
