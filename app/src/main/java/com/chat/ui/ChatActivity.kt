@@ -1,17 +1,16 @@
 package com.chat.ui
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.doAfterTextChanged
 import com.chat.R
 import com.chat.network.ChatHandler
 import com.chat.network.ChatListener
+import androidx.core.view.setPadding
 import kotlinx.android.synthetic.main.activity_chat.*
 
 class ChatActivity : AppCompatActivity(), ChatListener {
@@ -31,17 +30,9 @@ class ChatActivity : AppCompatActivity(), ChatListener {
             sendMessage()
         }
 
-        messageEditText.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(p0: Editable?) {
-                sendButton.isEnabled = p0!!.isNotEmpty()
-            }
-
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
-        })
+        messageEditText.doAfterTextChanged{
+            sendButton.isEnabled = it!!.isNotEmpty()
+        }
     }
 
     override fun onDestroy() {
@@ -66,6 +57,7 @@ class ChatActivity : AppCompatActivity(), ChatListener {
             )
             newTextView.gravity = if(isCurrentUser) Gravity.END else Gravity.START
             newTextView.text = message
+            newTextView.setPadding(resources.getDimension(R.dimen.default_text_padding).toInt())
             chatLayout.addView(newTextView)
             scrollView.fullScroll(View.FOCUS_DOWN)
         }
